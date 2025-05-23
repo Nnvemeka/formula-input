@@ -40,8 +40,6 @@ export const FormulaInput = () => {
 
   const result = calculateFormula(tokens);
 
-  console.log(result);
-
   // Check if input is number or operator
   const isNumberOrOperator = (value: string) => {
     return /^[\d+\-*/^()]+$/.test(value);
@@ -118,12 +116,19 @@ export const FormulaInput = () => {
       return;
     }
 
+    const numericValue =
+      typeof suggestion.value === "string"
+        ? parseFloat(suggestion.value) || 0
+        : suggestion.value;
+
     const newToken = {
       id: suggestion.id,
       type: "variable" as const,
       name: suggestion?.name,
-      value: suggestion.value || 0,
+      value: numericValue,
     };
+
+    console.log("Adding token from suggestion:", newToken);
 
     addToken(newToken);
 

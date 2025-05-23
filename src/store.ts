@@ -30,6 +30,7 @@ export const useFormulaStore = create<FormulaState>((set) => ({
   setShowAutocomplete: (showAutocomplete) => set({ showAutocomplete }),
   setActiveTagId: (activeTagId) => set({ activeTagId }),
   addToken: (token) => {
+    console.log("first");
     set((state) => {
       return {
         tokens: [...state.tokens, token],
