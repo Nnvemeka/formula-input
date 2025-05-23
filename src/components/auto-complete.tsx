@@ -27,7 +27,9 @@ export const Autocomplete = ({
       {suggestions.map((suggestion, index) => (
         <div
           key={index}
-          onClick={() => onSelect(suggestion)}
+          onClick={() => {
+            requestAnimationFrame(() => onSelect(suggestion));
+          }}
           className={`p-2 cursor-pointer ${
             index === selectedIndex
               ? "bg-blue-50 text-[blue.500]"

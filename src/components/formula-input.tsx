@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, type KeyboardEvent } from "react";
+import { useState, useRef, type KeyboardEvent } from "react";
 import { useFormulaStore, type Token } from "../store";
 import { useQuery } from "@tanstack/react-query";
 import { fetchAutocompleteSuggestions } from "../api";
@@ -14,8 +14,6 @@ const calculateFormula = (tokens: Token[]): number | null => {
         return token.value;
       })
       .join(" ");
-
-    console.log("expression", expression);
 
     // Use Function constructor for safe evaluation
     return new Function(`return ${expression}`)();
@@ -128,26 +126,12 @@ export const FormulaInput = () => {
       value: numericValue,
     };
 
-    console.log("Adding token from suggestion:", newToken);
-
     addToken(newToken);
 
     setInputValue("");
     setShowAutocomplete(false);
     inputRef.current?.focus();
   };
-
-  // Handle when user clicks outside the autocomplete
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (inputRef.current && !inputRef.current.contains(e.target as Node)) {
-        setShowAutocomplete(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
 
   return (
     <div className="p-4 max-w-2xl mx-auto relative">
